@@ -1,12 +1,26 @@
 package packSupermarket;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import gui.BasicProductWindow;
+import packStock.Stock;
+import packProduct.Product;
 
 public class SuperOnLine {
 	public static void main(String[] args) {
 
-		//TODO: obtain the Stock instance
-
+		Stock stock_ins = Stock.getInstance();
+		
+		try {
+			stock_ins.loadStockFromFile("lista_Stock/products.txt");
+			
+		} catch (FileNotFoundException e) {
+			
+			System.out.println("Fitxategia ez da existitzen edo beste karpeta batean dago");
+		}
+		
+		
 		//Create 3 products to store in the Stock
 		for(int i=0;i<3;i++) {
 
@@ -19,27 +33,41 @@ public class SuperOnLine {
 				double price=dlgProduct.getTxtPrice();
 				int amount=dlgProduct.getTxtAmount();
 				double weight=dlgProduct.getTxtWeight();
-
-				//TODO: Create an instance of Product using the gathered values
-
 				
-
-				//TODO: add the product to the Stock
-
+				Product produktua = new Product(i,name,price,amount,weight);
+				
+				stock_ins.addProduct(produktua);
 				
 
 			}
 
+		}
+		
+		try {
+			
+			stock_ins.storeStockInFile("lista_Stock/products.txt");
+			 
+			stock_ins.displayStock();
+		
+			stock_ins.removeProduct(1002);
+			
+			stock_ins.storeStockInFile("lista_Stock/products.txt");
+			
+			stock_ins.displayStock();
 
-
-		}             
-
-		//TODO show all the products in Stock
-
-		//TODO remove the second product in Stock
-
-		//TODO show all the products in Stock
-
+		}
+		
+		catch (IOException e) {
+			
+			System.out.println("Fitxategia ez da existitzen edo beste karpeta batean dago");
+		}
+		
+		catch(Stock.UnknownCodeException e) {
+			
+			System.out.println(e.getMessage());
+		}
+		
+		
 
 	}
 }

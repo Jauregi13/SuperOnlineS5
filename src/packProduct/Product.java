@@ -74,8 +74,14 @@ public class Product {
 	/**
 	 * @param amount the amount to set
 	 */
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setAmount(int amount) throws NegativeAmountException {
+		
+			if(amount < 0) {
+				throw new NegativeAmountException("Kopurua ezin du negatiboa izan");
+			}
+			else {
+				this.amount = amount;
+			}
 	}
 	/**
 	 * @return the weight
@@ -103,10 +109,7 @@ public class Product {
 	public double priceWithVAT() {
 		
 		return this.price + this.price * VAT;
-	}
-	
-	//TODO print method
-	
+	}	
 	public void print() {
 		
 		System.out.println("Kodea: " + this.code);
@@ -126,7 +129,19 @@ public class Product {
 		
 		
 	}
-	//TODO printForClient method
 	
-	//TODO toString method
+	public void printForClient() {
+		
+		System.out.println("Kodea: " + this.code);
+		System.out.println("Izena: " + this.name);
+		System.out.println("Prezioa: " + this.price);
+		System.out.println("Pisua: " + this.weight);
+		System.out.println("Prezioa BEZ-arekin: " + this.priceWithVAT());
+	}
+		
+	public String toString() {
+		
+		return this.code+ " "+ this.name + " " + this.price + " " + this.amount + " " + this.weight;
+		
+	}
 }
